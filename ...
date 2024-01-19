@@ -1,0 +1,31 @@
+# Utils
+
+## StringUtils
+
+### capitalize(string: string): string
+
+Capitalizes the first letter of the input string and returns the modified string.
+
+### reverse(string: string): string
+
+Reverses the input string and returns the modified string.
+
+## ArrayUtils
+
+### isEmpty(array: any[]): boolean
+
+Checks if the input array is empty and returns a boolean value indicating the result.
+
+### flatten(array: any[]): any[]
+
+Flattens the input array and returns a new array with all the elements flattened.
+
+## DateUtils
+
+### format(date: Date, format: string): string
+
+Formats the input date according to the specified format and returns the formatted string.
+
+### addDays(date: Date, days: number): Date
+
+Adds the specified number of days to the input date and returns the modified date.
