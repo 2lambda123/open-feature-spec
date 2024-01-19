@@ -16,8 +16,7 @@ The context might contain information about the end-user, the application, the h
 
 ### 3.1 Fields
 
-> [!NOTE]
-> Field casing is not specified, and should be chosen in accordance with language idioms.
+> [!NOTE] Field casing is not specified, and should be chosen in accordance with language idioms.
 
 see: [types](../types.md)
 
@@ -81,8 +80,7 @@ In the static-context paradigm, context is global. The client and invocation can
 
 > The API **MUST** have a method for setting `evaluation context` for a `domain`.
 
-In the static-context paradigm, provider specific context can be set using the associated `domain`.
-The global context is used if there is no matching provider specific context.
+In the static-context paradigm, provider specific context can be set using the associated `domain`. The global context is used if there is no matching provider specific context.
 
 See [setting a provider](./01-flag-evaluation.md#setting-a-provider), [domain](../glossary.md#domain) for details.
 
@@ -90,8 +88,7 @@ See [setting a provider](./01-flag-evaluation.md#setting-a-provider), [domain](.
 
 > The API **MUST** have a mechanism to manage `evaluation context` for an associated `domain`.
 
-In the static-context paradigm, it must be possible to create and remove provider-specific context.
-See [setting a provider](./01-flag-evaluation.md#setting-a-provider), [domain](../glossary.md#domain) for details.
+In the static-context paradigm, it must be possible to create and remove provider-specific context. See [setting a provider](./01-flag-evaluation.md#setting-a-provider), [domain](../glossary.md#domain) for details.
 
 #### Requirement 3.2.3
 

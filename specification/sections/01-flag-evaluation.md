@@ -31,8 +31,7 @@ It's important that multiple instances of the `API` not be active, so that state
 OpenFeature.setProvider(new MyProvider());
 ```
 
-The example above sets the default provider.
-This provider is used if a client is not bound to a specific provider via a [domain](../glossary.md#domain).
+The example above sets the default provider. This provider is used if a client is not bound to a specific provider via a [domain](../glossary.md#domain).
 
 See [provider](./02-providers.md), [creating clients](#creating-clients) for details.
 
@@ -40,18 +39,15 @@ See [provider](./02-providers.md), [creating clients](#creating-clients) for det
 
 > The `provider mutator` function **MUST** invoke the `initialize` function on the newly registered provider before using it to resolve flag values.
 
-Application authors can await the newly set `provider's` readiness using the `PROVIDER_READY` event.
-Provider instances which are already active (because they have been bound to another `domain` or otherwise) need not be initialized again.
-The `provider's` readiness can state can be determined from its `status` member/accessor.
+Application authors can await the newly set `provider's` readiness using the `PROVIDER_READY` event. Provider instances which are already active (because they have been bound to another `domain` or otherwise) need not be initialized again. The `provider's` readiness can state can be determined from its `status` member/accessor.
 
 See [event handlers and initialization](./05-events.md#event-handlers-and-initialization), [provider initialization](./02-providers.md#24-initialization), [domain](../glossary.md#domain) for details.
 
 #### Requirement 1.1.2.3
 
->  The `provider mutator` function **MUST** invoke the `shutdown` function on the previously registered provider once it's no longer being used to resolve flag values.
+> The `provider mutator` function **MUST** invoke the `shutdown` function on the previously registered provider once it's no longer being used to resolve flag values.
 
-When a provider is no longer in use, it should be disposed of using its `shutdown` mechanism.
-Provider instances which are bound to multiple `domains` won't be shut down until the last binding is removed.
+When a provider is no longer in use, it should be disposed of using its `shutdown` mechanism. Provider instances which are bound to multiple `domains` won't be shut down until the last binding is removed.
 
 see [shutdown](./02-providers.md#25-shutdown), [setting a provider](#setting-a-provider), [domain](../glossary.md#domain) for details.
 
@@ -65,7 +61,7 @@ This function not only sets the provider, but ensures that the provider is ready
 // default provider
 OpenFeatureAPI.getInstance().setProviderAndWait(myprovider); // this method blocks until the provider is ready or in error
 // client uses the default provider
-Client client = OpenFeatureAPI.getInstance().getClient(); 
+Client client = OpenFeatureAPI.getInstance().getClient();
 
 // provider associated with domain-1
 OpenFeatureAPI.getInstance().setProviderAndWait('domain-1', myprovider); // this method blocks until the provider is ready or in error
@@ -107,8 +103,7 @@ See [hooks](./04-hooks.md) for details.
 OpenFeature.getProviderMetadata();
 ```
 
-It must be possible to access provider metadata using a `domain`.
-If a provider has not be registered under the requested domain, the default provider metadata is returned.
+It must be possible to access provider metadata using a `domain`. If a provider has not be registered under the requested domain, the default provider metadata is returned.
 
 ```typescript
 // example provider accessor
@@ -130,8 +125,7 @@ See [provider](./02-providers.md), [domain](../glossary.md#domain) for details.
 OpenFeature.getClient();
 ```
 
-It must be possible to create a client that is associated with a `domain`.
-The client will use a provider in the same `domain` if one exists, otherwise, the default provide is used.
+It must be possible to create a client that is associated with a `domain`. The client will use a provider in the same `domain` if one exists, otherwise, the default provide is used.
 
 ```java
 // example client creation and retrieval using a domain
@@ -167,8 +161,7 @@ See [hooks](./04-hooks.md) for details.
 client.getMetadata().getDomain(); // "domain-1"
 ```
 
-In previous drafts, this property was called `name`.
-For backwards compatibility, implementations should consider `name` an alias to `domain`.
+In previous drafts, this property was called `name`. For backwards compatibility, implementations should consider `name` an alias to `domain`.
 
 ### 1.3. Flag Evaluation
 
@@ -226,7 +219,6 @@ number myNumber = client.getNumberValue('number-flag', 75);
 MyStruct myStruct = client.getObjectValue<MyStruct>('structured-flag', { text: 'N/A', percentage: 75 }, options);
 ```
 
-
 #### Condition 1.3.3
 
 > The implementation language differentiates between floating-point numbers and integers.
@@ -253,8 +245,7 @@ See [types](../types.md) for details.
 
 The _detailed evaluation_ functions behave similarly to the standard flag evaluation functions, but provide additional metadata useful for telemetry, troubleshooting, debugging, and advanced integrations.
 
-> [!NOTE]
-> Metadata included in the `evaluation details` should be considered "best effort", since not all providers will be able to provide these details (such as the reason a flag resolved to a particular value).
+> [!NOTE] Metadata included in the `evaluation details` should be considered "best effort", since not all providers will be able to provide these details (such as the reason a flag resolved to a particular value).
 
 see: [evaluation details](../types.md#evaluation-details) type
 
@@ -396,7 +387,6 @@ See [hooks](./04-hooks.md) for details.
 
 > The API **MUST** define a mechanism to propagate a shutdown request to active providers.
 
-The global API object might expose a `shutdown` function, which will call the respective `shutdown` function on the registered providers.
-Alternatively, implementations might leverage language idioms such as auto-disposable interfaces or some means of cancellation signal propagation to allow for graceful shutdown.
+The global API object might expose a `shutdown` function, which will call the respective `shutdown` function on the registered providers. Alternatively, implementations might leverage language idioms such as auto-disposable interfaces or some means of cancellation signal propagation to allow for graceful shutdown.
 
 see: [`shutdown`](./02-providers.md#25-shutdown)

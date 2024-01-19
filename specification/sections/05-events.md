@@ -26,7 +26,7 @@ graph
 
 #### Requirement 5.1.1
 
-> The `provider` **MAY** define a mechanism for signaling the occurrence of one of a set of events, including `PROVIDER_READY`, `PROVIDER_ERROR`, `PROVIDER_CONFIGURATION_CHANGED` and `PROVIDER_STALE`, with a `provider event details` payload. 
+> The `provider` **MAY** define a mechanism for signaling the occurrence of one of a set of events, including `PROVIDER_READY`, `PROVIDER_ERROR`, `PROVIDER_CONFIGURATION_CHANGED` and `PROVIDER_STALE`, with a `provider event details` payload.
 
 If available, native event-emitter or observable/observer language constructs can be used.
 
@@ -82,8 +82,7 @@ see: [provider events](#51-provider-events), [`provider event types`](../types.m
 
 > The `event details` **MUST** contain the `provider name` associated with the event.
 
-The `provider name` indicates the provider from which the event originated.
-This is especially relevant for global event handlers used for general monitoring, such as alerting on provider errors.
+The `provider name` indicates the provider from which the event originated. This is especially relevant for global event handlers used for general monitoring, such as alerting on provider errors.
 
 See [setting a provider](./01-flag-evaluation.md#setting-a-provider), [creating clients](./01-flag-evaluation.md#creating-clients).
 
@@ -101,8 +100,7 @@ see: [`event details`](../types.md#event-details)
 
 > Event handlers **MUST** persist across `provider` changes.
 
-If the underlying provider is changed, existing client and API event handlers will still fire.
-This means that the order of provider configuration and event handler addition is independent.
+If the underlying provider is changed, existing client and API event handlers will still fire. This means that the order of provider configuration and event handler addition is independent.
 
 #### Requirement 5.2.7
 
@@ -115,8 +113,7 @@ This means that the order of provider configuration and event handler addition i
 
 ### Event handlers and initialization
 
-Though providers themselves need not implement events, the `flag evaluation API` uses events to convey relevant state changes during configuration and initialization.
-_Application authors_ and _application integrators_ use these events to wait for proper initialization of the provider and to do basic monitoring and error handling.
+Though providers themselves need not implement events, the `flag evaluation API` uses events to convey relevant state changes during configuration and initialization. _Application authors_ and _application integrators_ use these events to wait for proper initialization of the provider and to do basic monitoring and error handling.
 
 #### Requirement 5.3.1
 
@@ -128,9 +125,7 @@ See [provider initialization](./02-providers.md#24-initialization) and [setting 
 
 > If the provider's `initialize` function terminates abnormally, `PROVIDER_ERROR` handlers **MUST** run.
 
-A failed initialization could represent an unrecoverable error, such as bad credentials or a missing file. 
-If a failed initialization could also represent a transient error.
-A provider which maintains a persistent connection to a remote `flag management system` may attempt to reconnect, and emit `PROVIDER_READY` after a failed initialization.
+A failed initialization could represent an unrecoverable error, such as bad credentials or a missing file. If a failed initialization could also represent a transient error. A provider which maintains a persistent connection to a remote `flag management system` may attempt to reconnect, and emit `PROVIDER_READY` after a failed initialization.
 
 See [provider initialization](./02-providers.md#24-initialization) and [setting a provider](./01-flag-evaluation.md#setting-a-provider).
 
@@ -138,23 +133,17 @@ See [provider initialization](./02-providers.md#24-initialization) and [setting 
 
 > Handlers attached after the provider is already in the associated state, **MUST** run immediately.
 
-Handlers may be attached at any point in the application lifecycle.
-Handlers should run immediately if the provider is already in the associated state.
-For instance, _application authors_ may attach readiness handlers to be confident that system is ready to evaluate flags.
-If such handlers are attached after the provider underlying the client has already been initialized, they should run immediately.
+Handlers may be attached at any point in the application lifecycle. Handlers should run immediately if the provider is already in the associated state. For instance, _application authors_ may attach readiness handlers to be confident that system is ready to evaluate flags. If such handlers are attached after the provider underlying the client has already been initialized, they should run immediately.
 
 See [provider initialization](./02-providers.md#24-initialization), [setting a provider](./01-flag-evaluation.md#setting-a-provider).
 
 ### Event handlers and context reconciliation
 
-Providers built to conform to the static context paradigm feature an additional `PROVIDER_CONTEXT_CHANGED` event, which is used to signal that the global context has been changed, and flags should be re-evaluated.
-This can be particularly useful for triggering UI repaints in multiple components when one component updates the [evaluation context](./03-evaluation-context.md).
-SDK implementations automatically fire the the `PROVIDER_CONTEXT_CHANGED` events if the `on context changed` handler terminates normally (and `PROVIDER_ERROR` events otherwise).
-Optionally, some providers may transition to the `STALE` state while their associated context is waiting to be reconciled, since this may involve asynchronous operations such as network calls.
+Providers built to conform to the static context paradigm feature an additional `PROVIDER_CONTEXT_CHANGED` event, which is used to signal that the global context has been changed, and flags should be re-evaluated. This can be particularly useful for triggering UI repaints in multiple components when one component updates the [evaluation context](./03-evaluation-context.md). SDK implementations automatically fire the the `PROVIDER_CONTEXT_CHANGED` events if the `on context changed` handler terminates normally (and `PROVIDER_ERROR` events otherwise). Optionally, some providers may transition to the `STALE` state while their associated context is waiting to be reconciled, since this may involve asynchronous operations such as network calls.
 
 ```mermaid
 ---
-title: Provider context reconciliation 
+title: Provider context reconciliation
 ---
 stateDiagram-v2
     direction TB
@@ -177,8 +166,7 @@ see: [static-context paradigm](../glossary.md#static-context-paradigm)
 
 > When the provider's `on context changed` is called, the provider **MAY** emit the `PROVIDER_STALE` event, and transition to the `STALE` state.
 
-Some providers cache evaluated flags, and re-evaluate them when the context is changed.
-In these cases, the provider may signal its cache is invalid with the `PROVIDER_STALE` event and the `STALE` provider state.
+Some providers cache evaluated flags, and re-evaluate them when the context is changed. In these cases, the provider may signal its cache is invalid with the `PROVIDER_STALE` event and the `STALE` provider state.
 
 see: [provider event types](../types.md#provider-events), [provider events](#51-provider-events), context, [provider context reconciliation](02-providers.md#26-provider-context-reconciliation)
 
@@ -186,8 +174,7 @@ see: [provider event types](../types.md#provider-events), [provider events](#51-
 
 > If the provider's `on context changed` function terminates normally, associated `PROVIDER_CONTEXT_CHANGED` handlers **MUST** run.
 
-The implementation must run any `PROVIDER_CONTEXT_CHANGED` handlers associated with the provider after the provider has reconciled its state and returned from the `on context changed` function.
-The `PROVIDER_CONTEXT_CHANGED` is not emitted from the provider itself; the SDK implementation must run the `PROVIDER_CONTEXT_CHANGED` handlers if the `on context changed` function terminates normally.
+The implementation must run any `PROVIDER_CONTEXT_CHANGED` handlers associated with the provider after the provider has reconciled its state and returned from the `on context changed` function. The `PROVIDER_CONTEXT_CHANGED` is not emitted from the provider itself; the SDK implementation must run the `PROVIDER_CONTEXT_CHANGED` handlers if the `on context changed` function terminates normally.
 
 see: [provider event types](../types.md#provider-events), [provider events](#51-provider-events), context, [provider context reconciliation](02-providers.md#26-provider-context-reconciliation)
 
